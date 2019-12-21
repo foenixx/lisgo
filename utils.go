@@ -13,5 +13,5 @@ func pad4(n uint32) uint32 {
 	if a == 0 {
 		return n
 	}
-	return 3 - a + n
+	return 4 - a + n
 }

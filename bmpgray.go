@@ -1,6 +1,7 @@
 package lisgo
 
 import (
+	"github.com/apex/log"
 	"image"
 	"image/color"
 )
@@ -16,8 +17,9 @@ func NewBmpGrayImage(data []byte, header *BmpHeader) *ImageBmpGray{
 	img := ImageBmpGray{
 		data:     data,
 		header:   header,
-		scanLine: int(header.Width + pad4(header.Width)),
+		scanLine: int(pad4(header.Width)),
 	}
+	log.WithField("scanLine", img.scanLine).Debug("creating ImgBmpGray")
 	return &img
 }
 

@@ -1,6 +1,7 @@
 package lisgo
 
 import (
+	"github.com/apex/log"
 	"image"
 	"image/color"
 )
@@ -18,11 +19,12 @@ func NewBmpBwImage(data []byte, header *BmpHeader) *ImageBmpBw {
 	img := ImageBmpBw{
 		data:     data,
 		header:   header,
-		scanLine: int(header.Width/8 + pad4(header.Width/8)),
+		scanLine: int(pad4(header.Width/8)),
 		palette: color.Palette{
 			color.RGBA{R: 0, G: 0, B: 0, A: 255},        //black
 			color.RGBA{R: 255, G: 255, B: 255, A: 255}}, //white
 	}
+	log.WithField("scanLine", img.scanLine).Debug("creating ImgBmpBw")
 	return &img
 }
 
