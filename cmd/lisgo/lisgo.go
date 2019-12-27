@@ -159,11 +159,10 @@ func scanToImage(device string, source string, fileFormat string, options *scann
 		page = lisgo.NewPageReader(session, params)
 		log.WithFields(log.Fields{
 			"fileFormat": params.ImageFormatStr(),
-			"w": params.Width(),
-			"h": params.Height(),
+			"w":          params.Width(),
+			"h":          params.Height(),
 			"image_size": params.ImageSize(),
 		}).Debug("scanning parameters")
-
 
 		imgName := fmt.Sprintf("page%d.%s", pageNum, fileFormat)
 		err = page.WriteToFile(imgName, fileFormat)
@@ -258,6 +257,8 @@ func scanToPdf(device string, source string, options *scannerOptions) {
 }
 
 func main() {
+	//lisgo.SetLisLogLevel(lisgo.LisLogLvlDebug)
+
 	log.SetHandler(cli.Default)
 	log.SetLevel(log.ErrorLevel)
 

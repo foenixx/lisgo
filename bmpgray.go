@@ -12,7 +12,7 @@ type ImageBmpGray struct {
 	scanLine int
 }
 
-func NewBmpGrayImage(data []byte, header *BmpHeader) *ImageBmpGray{
+func NewBmpGrayImage(data []byte, header *BmpHeader) *ImageBmpGray {
 	//it seems that we may ignore palette
 	img := ImageBmpGray{
 		data:     data,
@@ -42,8 +42,6 @@ func (i *ImageBmpGray) At(x, y int) color.Color {
 		y = int(abs(i.header.Height)) - y - 1
 	}
 
-	offset := i.scanLine* y + x
-	return color.Gray{ Y: i.data[offset] }
+	offset := i.scanLine*y + x
+	return color.Gray{Y: i.data[offset]}
 }
-
-

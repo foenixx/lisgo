@@ -19,9 +19,9 @@ func NewBmpBwImage(data []byte, header *BmpHeader) *ImageBmpBw {
 	img := ImageBmpBw{
 		data:     data,
 		header:   header,
-		scanLine: int(pad4(header.Width/8)),
+		scanLine: int(pad4(pad8(header.Width) / 8)),
 		palette: color.Palette{
-			color.RGBA{R: 0, G: 0, B: 0, A: 255},        //black
+			color.RGBA{R: 0, G: 0, B: 0, A: 255}, //black
 			color.RGBA{R: 255, G: 255, B: 255, A: 255}}, //white
 	}
 	log.WithField("scanLine", img.scanLine).Debug("creating ImgBmpBw")
@@ -41,6 +41,12 @@ func (i *ImageBmpBw) Bounds() image.Rectangle {
 
 //ColorIndexAt returns the color index of the pixel at (x, y).
 func (i *ImageBmpBw) ColorIndexAt(x, y int) uint8 {
+	//magic 64 pixels shift of image
+	x = x + 64
+	if x >= int(i.header.Width) {
+		x = x - int(i.header.Width)
+	}
+
 	if i.header.Height > 0 {
 		//bottom-up image
 		y = int(i.header.Height) - y - 1
@@ -50,6 +56,15 @@ func (i *ImageBmpBw) ColorIndexAt(x, y int) uint8 {
 	bitIndex := 7 - x%8
 
 	offset := y*i.scanLine + byteIndex
+
+	//log.WithFields(log.Fields{
+	//	"x":         x,
+	//	"y":         y,
+	//	"byteIndex": byteIndex,
+	//	"bitIndex":  bitIndex,
+	//	"offset":    offset,
+	//}).Debug("ColorIndexAt is called")
+
 	var mask uint8 = 1 << bitIndex
 	if (i.data[offset] & mask) == mask {
 		return 1

@@ -257,7 +257,7 @@ struct lis_api *lis_api_get_api(struct error_proxy *err) {
 	struct lis_api *impl = NULL;
 	//disable libinsane normalizer to enable BW & Gray scanning
 	_putenv("LIBINSANE_NORMALIZER_BMP2RAW=0");
-	//_putenv("LIBINSANE_WORKAROUND_CACHE=0");
+	//_putenv("LIBINSANE_WORKAROUND_CHECK_CAPABILITIES=0");
 	//disable safe default
     //_putenv("LIBINSANE_NORMALIZER_SAFE_DEFAULTS=0");
 

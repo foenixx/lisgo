@@ -30,7 +30,7 @@ var (
 )
 
 //SetLogLevel sets min log level
-func SetLogLevel(lvl uint32) {
+func SetLisLogLevel(lvl uint32) {
 	logLevel = lvl
 }
 
