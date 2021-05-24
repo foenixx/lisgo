@@ -1,14 +1,14 @@
 # lisgo
-Go bindings to [*libinsane*](https://gitlab.gnome.org/World/OpenPaperwork/libinsane) scanning library (OpenPaperwork project).
+Go bindings for [*libinsane*](https://gitlab.gnome.org/World/OpenPaperwork/libinsane) scanning library (OpenPaperwork project).
 
-lisgo library is potentially cross-platform, but tested only on Windows yet. 
+**lisgo** library is potentially cross-platform, but tested only on Windows yet. 
 
 ## lisgo.exe command-line utility
 
 This project includes `lisgo.exe` command-line utility. It illustrates using of the library. Please refer to `cmd\lisgo\lisgo.go` for examples.
-lisgo.exe could be compiled as 32-bit or 64-bit program. Usually 32-bit is preferred way of using it, because most of Twain drivers are 32-bit only.
+`lisgo.exe` could be compiled as 32-bit or 64-bit program. Usually 32-bit is preferred way of using it, because most of Twain drivers are 32-bit only.
 
-Currently lisgo.exe can do:
+Currently lisgo.exe can:
 
 * List available scanners.
 ```
