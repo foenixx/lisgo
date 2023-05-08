@@ -3,6 +3,30 @@ Go bindings for [*libinsane*](https://gitlab.gnome.org/World/OpenPaperwork/libin
 
 **lisgo** library is potentially cross-platform, but tested only on Windows yet. 
 
+## How to compile
+
+Instructions for compiling 32-bit version.
+
+1. Install MSYS2 and everything for compiling 32-bit programs. Run it in MINGW32 shell. This is an excerpt from [libinsane documentation](https://doc.openpaper.work/libinsane/latest/libinsane/install.html). 
+    ```
+    pacman -Syuu
+    pacman -S \
+        make \
+        mingw-w64-i686-cunit \
+        mingw-w64-i686-doxygen \
+        mingw-w64-i686-gcc \
+        mingw-w64-i686-gobject-introspection \
+        mingw-w64-i686-meson \
+        mingw-w64-i686-python3-gobject \
+        mingw-w64-i686-vala
+    ```
+2. To compile libinsane as a static library, change line #88 in `subprojects\libinsane\src\meson.build` from  
+   `libinsane = library(` to  
+   `libinsane = static_library(`
+3. After building libinsane `make PREFIX=/mingw64` you'll have `libinsane.a` in the build directory. Copy it to `lisgo\lib\libinsane32.a`.
+4. Now issue `..lisgo> make` in MINGW32 shell to compile both library and lisgo32.exe.
+
+
 ## lisgo.exe command-line utility
 
 This project includes `lisgo.exe` command-line utility. It illustrates using of the library. Please refer to `cmd\lisgo\lisgo.go` for examples.
@@ -102,5 +126,3 @@ Options:
   -v    show debug messages
 ```
 
-## How to compile
-This library uses cgo and make, so you will need msys installed. Please see comments in Makefile for details on folders structure.

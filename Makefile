@@ -45,7 +45,7 @@ all: build
 
 build: $(bin_dir)
 	@export CGO_CFLAGS="-I $(LIBINSANE_GO_INCDIR)"; \
-		export CGO_LDFLAGS="--static -s -w $(LIBINSANE_GO_LIBDIR)\libinsane$(arch).a -lregex -lole32  -loleaut32 -luuid -lsystre -ltre  -lpthread -lintl -liconv"; \
+		export CGO_LDFLAGS="--static $(LIBINSANE_GO_LIBDIR)\libinsane$(arch).a -lregex -lole32  -loleaut32 -luuid -lsystre -ltre  -lpthread -lintl -liconv"; \
 		go build -o $(bin_dir)/lisgo$(arch).exe cmd/lisgo/*.go
 
 $(bin_dir):
