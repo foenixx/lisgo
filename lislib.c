@@ -17,10 +17,6 @@ void set_log_callbacks() {
 	lis_set_log_callbacks(&g_log_callbacks);
 }
 
-void go_printf(const char* msg) {
-	printf(msg);
-}
-
 void lis_value_print(enum lis_value_type typ, union lis_value *val) {
 	switch (typ)
 	{
@@ -90,7 +86,7 @@ void lis_set_option_proxy(struct lis_item *source, char* opt_name, char *value, 
 	//val = calloc(1, sizeof(union lis_value)); //won't free it as stated in the get_value's doc
 	err->err = lis_set_option(source, opt_name, value);
 	if (err->err != LIS_OK) {
-		sprintf(err->buf, "Error %d in 'lis_set_option_proxy' %s", err, lis_strerror(err->err));
+		sprintf(err->buf, "Error %d in 'lis_set_option_proxy' %s", err->err, lis_strerror(err->err));
 	}
 }
 
@@ -99,7 +95,7 @@ struct lis_scan_session* lis_item_scan_start_proxy(struct lis_item *source, stru
 	//enum lis_error err;
 	err->err = source->scan_start(source, &session);
 	if (err->err != LIS_OK) {
-		sprintf(err->buf, "Error %d in 'lis_item_scan_start_proxy' %s", err, lis_strerror(err->err));
+		sprintf(err->buf, "Error %d in 'lis_item_scan_start_proxy' %s", err->err, lis_strerror(err->err));
 		return NULL;
 	}
 	return session;
@@ -256,10 +252,10 @@ struct lis_item** lis_item_list_sources(struct lis_api *api, char* device_id, st
 struct lis_api *lis_api_get_api(struct error_proxy *err) {
 	struct lis_api *impl = NULL;
 	//disable libinsane normalizer to enable BW & Gray scanning
-	_putenv("LIBINSANE_NORMALIZER_BMP2RAW=0");
-	//_putenv("LIBINSANE_WORKAROUND_CHECK_CAPABILITIES=0");
+	putenv("LIBINSANE_NORMALIZER_BMP2RAW=0");
+	//putenv("LIBINSANE_WORKAROUND_CHECK_CAPABILITIES=0");
 	//disable safe default
-    //_putenv("LIBINSANE_NORMALIZER_SAFE_DEFAULTS=0");
+	//putenv("LIBINSANE_NORMALIZER_SAFE_DEFAULTS=0");
 
 	err->err = lis_safebet(&impl);
 	if (err->err != LIS_OK) {
