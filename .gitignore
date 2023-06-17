@@ -1,5 +1,4 @@
 .idea/
 .*
-inc/
-lib/
+libinsane/
 bin/
