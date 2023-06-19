@@ -42,6 +42,5 @@ func logProxy(lvl C.enum_lis_log_level, msg *C.char) {
 		} else {
 			log.WithField("message", C.GoString(msg)).Debug("libinsane log message")
 		}
-		//C.go_printf(msg)
 	}
 }

@@ -3,7 +3,7 @@ Go bindings for [*libinsane*](https://gitlab.gnome.org/World/OpenPaperwork/libin
 
 **lisgo** library is potentially cross-platform, but tested only on Windows yet. 
 
-## How to compile
+## How to compile on Windows
 
 Instructions for compiling 32-bit version.
 
@@ -20,12 +20,48 @@ Instructions for compiling 32-bit version.
         mingw-w64-i686-python3-gobject \
         mingw-w64-i686-vala
     ```
-2. To compile libinsane as a static library, change line #88 in `subprojects\libinsane\src\meson.build` from  
-   `libinsane = library(` to  
-   `libinsane = static_library(`
-3. After building libinsane `make PREFIX=/mingw64` you'll have `libinsane.a` in the build directory. Copy it to `lisgo\lib\libinsane32.a`.
-4. Now issue `..lisgo> make` in MINGW32 shell to compile both library and lisgo32.exe.
+    If you plan on compiling your program as a 64bits executable, you just have to replace all the `i686` by `x86_64` and run it in MINGW64 shell.
 
+2. Download libinsane sources
+    ```
+    wget -c https://gitlab.gnome.org/World/OpenPaperwork/libinsane/-/archive/1.0.10/libinsane-1.0.10.tar.gz -O - | tar -xz
+    mv libinsane-* libinsane
+    ```
+3. To compile libinsane as a static library, change line #88 in `subprojects\libinsane\src\meson.build` from `libinsane = library` to `libinsane = static_library`
+    ```
+    (cd libinsane && sed -i 's/libinsane = library/libinsane = static_library/g' subprojects/libinsane/src/meson.build)
+    ```
+4. Build libinsane
+    ```
+    (cd libinsane && make PREFIX=/mingw64)
+    ```
+5. Set CGO options
+    ```
+    export LIBINSANE_DIR=`cygpath -aw libinsane`
+    export CGO_CFLAGS="-I${LIBINSANE_DIR}/subprojects/libinsane/include"
+    export CGO_LDFLAGS="-L${LIBINSANE_DIR}/build/subprojects/libinsane/src/ -static -linsane -lpthread -lsystre -lintl -ltre -liconv -lregex -lole32 -loleaut32 -luuid"
+6. Build
+    ```
+    go get .
+    go build -o bin/lisgo.exe cmd/lisgo/main.go
+    ```
+
+## How to compile on Ubuntu
+
+1. Install dependencies
+    ```
+    sudo apt get update
+    sudo apt install build-essential libinsane-dev libsane-dev
+    ```
+2. Set CGO options
+    ```
+    export CGO_LDFLAGS="-linsane"
+    ```
+3. Build
+    ```
+    go get .
+    go build -o bin/lisgo cmd/lisgo/main.go
+    ```
 
 ## lisgo.exe command-line utility
 

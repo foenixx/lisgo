@@ -44,7 +44,6 @@ int  lis_array_length(void*);
 void logProxy(enum lis_log_level, char*);
 
 //various debug functions
-void go_printf(const char*);
 void set_log_callbacks();
 
 
