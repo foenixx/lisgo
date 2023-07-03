@@ -73,6 +73,10 @@ func (o *lisgo) ListDevices() ([]*Scanner, error) {
 		return nil, err
 	}
 
+	if cdevs == nil {
+		return nil, nil
+	}
+
 	arrLen := C.lis_array_length(unsafe.Pointer(cdevs))
 
 	//Apply strong magic to get GO slice backed by C null-terminated array
@@ -96,6 +100,10 @@ func (o *lisgo) GetDevice(deviceID string) (*Scanner, error) {
 	if errProxy.ErrNum() != LisOk {
 		err := errors.New(errProxy.Error())
 		return nil, err
+	}
+
+	if cdevs == nil {
+		return nil, nil
 	}
 
 	arrlen := C.lis_array_length(unsafe.Pointer(cdevs))
